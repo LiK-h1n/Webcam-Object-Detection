@@ -3,17 +3,16 @@ from cv2 import VideoCapture, imshow, waitKey, cvtColor, COLOR_BGR2GRAY, Gaussia
     imwrite
 from time import sleep
 from glob import glob
-from os.path import getmtime, join
-from os import listdir, remove
+from os.path import getmtime
+from os import remove
 from emailing import send_email
 
 
 def delete_old_images():
-    directory_path = "images"
+    images = glob("images/*.png")
 
-    for image in listdir(directory_path):
-        image_path = join(directory_path, image)
-        remove(image_path)
+    for image in images:
+        remove(image)
 
 
 delete_old_images()
