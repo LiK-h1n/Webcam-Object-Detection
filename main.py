@@ -56,7 +56,8 @@ while True:
         all_images = sorted(glob("images/*.png"), key=getmtime)
         index = int(len(all_images) / 2)
         image_with_object = all_images[index]
-        # send_email(image_with_object)
+        send_email(image_with_object)
+        delete_old_images()
 
     imshow("Video", frame)
 
