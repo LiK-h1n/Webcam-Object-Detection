@@ -5,6 +5,7 @@ from time import sleep
 from glob import glob
 from os.path import getmtime
 from os import remove
+from threading import Thread
 from emailing import send_email
 
 
@@ -15,7 +16,6 @@ def delete_old_images():
         remove(image)
 
 
-delete_old_images()
 video = VideoCapture(0)
 sleep(1)
 
@@ -56,8 +56,9 @@ while True:
         all_images = sorted(glob("images/*.png"), key=getmtime)
         index = int(len(all_images) / 2)
         image_with_object = all_images[index]
-        send_email(image_with_object)
-        delete_old_images()
+        email_thread = Thread(target=send_email, args=(image_with_object, ))
+        email_thread.daemon = True
+        email_thread.start()
 
     imshow("Video", frame)
 
@@ -67,3 +68,4 @@ while True:
         break
 
 video.release()
+delete_old_images()
